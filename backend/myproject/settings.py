@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3n6lm=e^#@&lvzj+dxd&z5t6@-mi-x6d$@xcqscjyti99dj792
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # Allow all hosts for now (can be restricted later)
 
 
 # Application definition
@@ -37,11 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
+    'rest_framework',  # Removed duplicate entry
+    'corsheaders',  # CORS headers for cross-origin requests
     'users',  # Your app for user authentication
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # CORS middleware
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'fitness_app',  # Name of your database
+        'USER': 'root',  # MySQL username, default is 'root'
+        'PASSWORD': 'root',  # MySQL password, default is empty
+        'HOST': 'localhost',  # Use 'localhost' as the host
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
@@ -101,6 +105,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+# CORS settings to allow React frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React app URL
+    # Add more URLs if you have multiple environments
 ]
 
 
