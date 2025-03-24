@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import loginimage from './assets/loginpage.jpg'
+import { useNavigate } from "react-router-dom";
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path);  
+  };
 
   return (
     <>
@@ -20,10 +26,10 @@ function App() {
           <button onClick={() => setCount((count) => count + 1)}>
             count is {count}
           </button>
-          <button>
+          <button onClick={()=>handleNavigate("/login")}>
             Login
           </button>
-          <button>
+          <button onClick={()=>handleNavigate("/signup")}>
             SignUp
           </button>
         </div>
