@@ -1,29 +1,35 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="flex h-screen justify-center items-center bg-gray-900">
-      <div className="p-8 bg-gray-800 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold text-white text-center mb-6">Welcome to Vite + React</h1>
-        
-        <div className="mb-4">
-          <button onClick={() => setCount((count) => count + 1)} className="w-full bg-blue-600 p-2 rounded text-white">
-            Count is {count}
-          </button>
-        </div>
-
-        <p className="text-white mt-4 text-center">
-          <Link to="/login" className="text-blue-400 hover:underline">Login</Link> | 
-          <Link to="/signup" className="text-blue-400 hover:underline"> Sign Up</Link>
-        </p>
-
-        <p className="text-white text-center mt-4">Click on the links to navigate</p>
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
       </div>
-    </div>
-  );
+      <h1>Fitness App Test Page</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default App;
+export default App
