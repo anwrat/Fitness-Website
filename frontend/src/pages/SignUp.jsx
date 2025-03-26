@@ -1,5 +1,3 @@
-import './LogSign.css'
-
 function SignUp() {
     return(
       <>
