@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { loginUser } from "../pages/api";
+import { registerUser } from "../pages/api";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -10,25 +10,24 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginUser({ username, password });
-      localStorage.setItem("token", response.data.token);
-      alert("Login successful!");
-      navigate("/dashboard");
+      await registerUser({ username, password });
+      alert("Registration successful! Please login.");
+      navigate("/login");
     } catch (error) {
-      alert("Login failed. Check your credentials.");
+      alert("Registration failed.");
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input type="email" placeholder="Email" value={username} onChange={(e) => setUsername(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;
