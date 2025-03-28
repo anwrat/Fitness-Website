@@ -2,6 +2,7 @@ import muscleman from "./assets/muscleman.png";
 import { useNavigate } from "react-router-dom";
 import Nav1 from "./components/Nav1";
 
+
 function App() {
 
   const navigate = useNavigate();
