@@ -14,8 +14,20 @@ function App() {
       {/* Left Side: Text */}
       <div className="w-full md:w-1/2 text-center md:text-left p-6">
         <h1 className="text-2xl md:text-4xl font-bold text-white">
-          Achieve Your FITNESS GOALS With FitMaker
+          Achieve Your
         </h1>
+        <h1 className="text-2xl md:text-4xl font-bold text-[#CC4E17]">FITNESS GOALS</h1>
+        <h1 className="text-2xl md:text-4xl font-bold text-white">With FitMaker</h1>
+        <div className="mt-12 flex gap-4">
+          <button className="bg-[#D90A14] text-white px-6 py-2 rounded-4xl hover:bg-[#0F0505] transition cursor-pointer"
+            >
+                Start Your Journey
+          </button>
+          <button className="bg-black text-[#CD4E17] px-6 py-2 rounded-4xl hover:bg-[#CD4E17] hover:text-white transition border border-[#CD4E17] cursor-pointer"
+          >
+             Explore Programs
+          </button>
+        </div>
       </div>
 
       {/* Right Side: Image */}

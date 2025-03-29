@@ -23,7 +23,7 @@ function Nav1(){
         <div className="flex gap-4">
         <button
             onClick={() => navigate("/login")}
-            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-[#CD4E17] transition border border-[#CD4E17] cursor-pointer"
+            className="bg-black text-[#CD4E17] px-6 py-2 rounded-lg hover:bg-[#CD4E17] hover:text-white transition border border-[#CD4E17] cursor-pointer"
         >
             Login
         </button>
