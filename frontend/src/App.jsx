@@ -10,14 +10,23 @@ function App() {
   return (
     <div className="w-screen h-screen mx-auto bg-[#0F0505] p-8 text-center">
       <Nav1 />
-      <div>
+      <div className="w-full h-auto flex flex-col md:flex-row items-center justify-center px-6">
+      {/* Left Side: Text */}
+      <div className="w-full md:w-1/2 text-center md:text-left p-6">
+        <h1 className="text-2xl md:text-4xl font-bold text-white">
+          Achieve Your FITNESS GOALS With FitMaker
+        </h1>
+      </div>
+
+      {/* Right Side: Image */}
+      <div className="w-full md:w-1/2 flex justify-center">
         <img
           src={muscleman}
-          className="h-24 p-6 transition duration-300 hover:drop-shadow-[0_0_8px_#646cffaa]"
+          className="w-3/4 md:w-full max-w-xs md:max-w-md h-auto rounded-full drop-shadow-[0_0_10px_#CD4E17]"
           alt="Fitness App Home"
         />
       </div>
-      <h1 className="text-3xl font-bold text-white">Achieve Your FITNESS GOALS With FitMaker</h1>
+    </div>
     </div>
   );
 }
