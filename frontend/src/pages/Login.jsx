@@ -5,14 +5,14 @@ function Login() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen bg-[#26040B] text-white">
-      <div className="w-full h-1/2 flex flex-col md:flex-row items-center justify-center bg-[#590505] p-8 rounded-lg shadow-lg">
+    <div className="flex items-center justify-center h-screen w-screen bg-[#0F0505] text-white">
+      <div className="w-full h-3/4 flex flex-col md:flex-row items-center justify-center bg-[#590505] p-8 shadow-lg">
         {/* Left Side: Image */}
         <div className="hidden md:block w-1/2 h-full relative">
           <img
             src={loginimage}
             alt="Login Illustration"
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover opacity-80"
           />
             {/* Overlay Text */}
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
@@ -50,7 +50,7 @@ function Login() {
             <p className="cursor-pointer">Forgot your password?</p>
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg font-semibold mt-2 transition duration-300"
+              className="w-full bg-[#D90A14] hover:bg-blue-700 py-2 rounded-lg font-semibold mt-2 transition duration-300 cursor-pointer"
             >
               Login
             </button>
