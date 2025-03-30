@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
 //Importing the NormalButton component
 import NormalButton from "../components/NormalButton";
-import PasswordInput from "../components/PasswordInput";
+import InputField from "../components/InputField";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,18 +18,12 @@ function Login() {
             <form className="w-full max-w-sm p-6 rounded-lg shadow-lg mt-4">
               <div className="mb-4">
                 <label className="block text-sm font-medium">Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                  className="w-full px-3 py-2 mt-1 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14]"
-                />
+                <InputField placeholder="Enter your email" showToggle={false}/>
               </div>
 
               <div className="mb-4">
                 <label className="block text-sm font-medium">Password</label>
-                <PasswordInput />
+                <InputField showToggle={true} placeholder="Enter your password"/>
               </div>
               <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]">Forgot your password?</p>
               <NormalButton text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14"/>

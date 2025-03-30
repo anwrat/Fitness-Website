@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
 import NormalButton from "../components/NormalButton";
-import PasswordInput from "../components/PasswordInput";
+import PasswordInput from "../components/InputField";
 
 function SignUp() {
   const navigate = useNavigate();
