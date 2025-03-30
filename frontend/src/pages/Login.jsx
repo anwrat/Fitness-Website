@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
+//Importing the NormalButton component
+import NormalButton from "../components/NormalButton";
 
 function Login() {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ function Login() {
       {/* <div className="w-full h-3/4 flex flex-col md:flex-row items-center justify-center bg-[#290303] p-8 shadow-lg"> */}
             {/* Left Side: Form and Welcome Text */}
             <div className="w-full md:w-1/2 flex flex-col items-center">
-            <h1 className="text-4xl font-bold">Welcome</h1>
+            <h1 className="text-4xl font-bold">Welcome!</h1>
             <h4 className="text-lg mt-2">Login with email</h4>
 
             <form className="w-full max-w-sm p-6 rounded-lg shadow-lg mt-4">
@@ -20,7 +22,7 @@ function Login() {
                   name="email"
                   placeholder="Enter your email"
                   required
-                  className="w-full px-3 py-2 mt-1 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-3 py-2 mt-1 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14]"
                 />
               </div>
 
@@ -31,22 +33,17 @@ function Login() {
                   name="password"
                   placeholder="Enter your password"
                   required
-                  className="w-full px-3 py-2 mt-1 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-3 py-2 mt-1 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14]"
                 />
               </div>
-              <p className="cursor-pointer">Forgot your password?</p>
-              <button
-                type="submit"
-                className="w-full bg-[#D90A14] hover:bg-blue-700 py-2 rounded-lg font-semibold mt-2 transition duration-300 cursor-pointer"
-              >
-                Login
-              </button>
+              <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]">Forgot your password?</p>
+              <NormalButton text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14"/>
             </form>
 
             <p className="mt-4 text-sm">
               Don't have an account?{" "}
               <span
-                className="text-blue-500 cursor-pointer hover:text-blue-700 font-bold"
+                className="text-[#D90A14] cursor-pointer hover:text-[#78050a] font-bold"
                 onClick={() => navigate("/signup")}
               >
                 Sign Up

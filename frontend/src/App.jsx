@@ -19,11 +19,11 @@ function App() {
         <h1 className="text-2xl md:text-4xl font-bold text-[#CC4E17]">FITNESS GOALS</h1>
         <h1 className="text-2xl md:text-4xl font-bold text-white">With FitMaker</h1>
         <div className="mt-12 flex gap-4">
-          <button className="bg-[#D90A14] text-white px-6 py-2 rounded-4xl hover:bg-[#0F0505] hover:border border-[#D90A14] transition cursor-pointer"
+          <button className="bg-[#D90A14] text-white px-6 py-2 rounded-4xl hover:bg-[#0F0505] hover:border border-[#D90A14] transition cursor-pointer font-semibold"
             >
                 Start Your Journey
           </button>
-          <button className="bg-black text-[#CD4E17] px-6 py-2 rounded-4xl hover:bg-[#CD4E17] hover:text-white transition border border-[#CD4E17] cursor-pointer"
+          <button className="bg-black text-[#CD4E17] px-6 py-2 rounded-4xl hover:bg-[#CD4E17] hover:text-white transition border border-[#CD4E17] cursor-pointer font-semibold"
           >
              Explore Programs
           </button>
