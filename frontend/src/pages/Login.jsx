@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
 //Importing the NormalButton component
 import NormalButton from "../components/NormalButton";
+import PasswordInput from "../components/PasswordInput";
 
 function Login() {
   const navigate = useNavigate();
@@ -28,13 +29,7 @@ function Login() {
 
               <div className="mb-4">
                 <label className="block text-sm font-medium">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  required
-                  className="w-full px-3 py-2 mt-1 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14]"
-                />
+                <PasswordInput />
               </div>
               <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]">Forgot your password?</p>
               <NormalButton text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14"/>
