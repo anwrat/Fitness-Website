@@ -1,5 +1,16 @@
 /* For importing tailwind v4 */
+@import "@fontsource/luckiest-guy";
 @import "tailwindcss";
+
+/* For Imprting luckiest guy font */
+:root {
+  --font-luckiest: 'Luckiest Guy', cursive;
+}
+
+/* Custom Tailwind Utility Class */
+.font-luckiest {
+  font-family: var(--font-luckiest);
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
