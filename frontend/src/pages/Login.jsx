@@ -48,7 +48,7 @@ function Login() {
           />
             {/* Overlay Text */}
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <h1 className="text-white text-3xl font-bold">FitForge</h1>
+            <h1 className="font-luckiest text-white text-3xl font-bold">FitForge</h1>
           </div>
         </div>
       {/* </div> */}

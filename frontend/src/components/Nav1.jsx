@@ -1,22 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import NormalButton from "./NormalButton";
+import logo from '../assets/mainlogo.png';
 
 function Nav1(){
     const navigate = useNavigate();
 
     return(
-        <nav className="w-full flex items-center justify-between bg-[#0F0505] p-4">
+        <nav className="w-full flex items-center justify-between bg-[#0F0505] p-4 fixed top-0 left-0 right-0 z-50">
         {/* Left Side - Logo or Branding */}
-        <div className="text-white text-base font-bold">
-            <p>FitForge</p>
-            <p>Transform your body</p>
+        <div className="flex-shrink-0">
+            <img 
+                src={logo} 
+                alt="Brand Logo" 
+                className="h-12 md:h-20 w-auto" 
+            />
         </div>
         {/* Middle - Navigation Links */}
-        <div className="hidden md:flex gap-6 text-white text-lg">
+        <div className="hidden md:flex text-white text-base md:text-lg lg:text-xl gap-4 md:gap-6 lg:gap-8">
         <a className="relative group text-white hover:text-[#D90A14] cursor-pointer">Home</a>
         <a className="relative group text-white hover:text-[#D90A14] cursor-pointer">Programs</a>
         <a className="relative group text-white hover:text-[#D90A14] cursor-pointer">Coaching</a>
-        <a className="relative group text-white hover:text-[#D90A14] cursor-pointer">Membership</a>
         <a className="relative group text-white hover:text-[#D90A14] cursor-pointer">About Us</a>
         </div>
 
