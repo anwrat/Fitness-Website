@@ -11,7 +11,7 @@ function SignUp() {
       {/* <div className="w-full h-3/4 flex flex-col md:flex-row items-center justify-center bg-[#290303] p-8 shadow-lg"> */}
             {/* Left Side: Form and Welcome Text */}
             <div className="w-full md:w-1/2 flex flex-col items-center">
-            <h1 className="font-luckiest text-4xl font-bold">Sign Up</h1>
+            <h1 className="text-4xl font-bold">Sign Up</h1>
 
             <form className="w-full max-w-sm p-6 rounded-lg shadow-lg mt-4">
               <div className="mb-4">
@@ -51,7 +51,7 @@ function SignUp() {
           />
             {/* Overlay Text */}
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <h1 className="text-white text-3xl font-bold">FitForge</h1>
+            <h1 className="font-luckiest text-white text-3xl font-bold">FitForge</h1>
           </div>
         </div>
       {/* </div> */}
