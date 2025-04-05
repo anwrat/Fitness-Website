@@ -31,7 +31,7 @@ function Nav1(){
         {/* Right Side - Buttons */}
         <div className="flex gap-4">
         <NormalButton text="Login" textColor="#CD4E17" hoverText="white" bgColor="black" bColor="#CD4E17" hoverBg="#CD4E17" onClick={()=>navigate("/login")}/>
-        <NormalButton text="SignUp" textColor="white" hoverText="#D90A14" bgColor="#D90A14" hoverBorder="#D90A14" hoverBg="#0F0505" bColor="#D90A14" onClick={()=>navigate("/signup")}/>
+        <NormalButton text="Register" textColor="white" hoverText="#D90A14" bgColor="#D90A14" hoverBorder="#D90A14" hoverBg="#0F0505" bColor="#D90A14" onClick={()=>navigate("/register")}/>
         </div>
     </nav>
     );
