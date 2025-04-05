@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
 import NormalButton from "../components/NormalButton";
-import PasswordInput from "../components/InputField";
+import InputField from "../components/InputField";
 
-function SignUp() {
+function PasswordReset() {
   const navigate = useNavigate();
 
   return (
@@ -11,7 +11,7 @@ function SignUp() {
       {/* <div className="w-full h-3/4 flex flex-col md:flex-row items-center justify-center bg-[#290303] p-8 shadow-lg"> */}
             {/* Left Side: Form and Welcome Text */}
             <div className="w-full md:w-1/2 flex flex-col items-center">
-            <h1 className="text-4xl font-bold">Sign Up</h1>
+            <h1 className="text-4xl font-bold">Reset Password</h1>
 
             <form className="w-full max-w-sm p-6 rounded-lg shadow-lg mt-4">
               <div className="mb-4">
@@ -26,7 +26,7 @@ function SignUp() {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium">Password</label>
-                <PasswordInput placeholder="Enter your password"/>
+                <InputField fieldtype="password" showToggle={true} placeholder="Enter your password"/>
               </div>
               <div className="py-5">
                 <NormalButton text="SignUp" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14"/>
@@ -59,4 +59,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default PasswordReset;

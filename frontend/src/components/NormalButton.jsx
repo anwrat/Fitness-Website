@@ -1,7 +1,8 @@
 import React from "react";
 
 const NormalButton = ({ 
-  text, 
+  text,
+  btype, 
   onClick, 
   bgColor, 
   textColor, 
@@ -12,6 +13,7 @@ const NormalButton = ({
 }) => {
   return (
     <button
+      type={btype}
       onClick={onClick}
       className={`w-full font-semibold px-6 py-2 rounded-lg transition border cursor-pointer`}
       style={{
