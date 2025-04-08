@@ -5,6 +5,11 @@ import Login from "./pages/Login";
 import PasswordReset from './pages/PasswordReset';
 import Register from "./pages/Register";
 import Dashboard from "./pages/User/Dashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import UserManagement from "./pages/Admin/UserManagement";
+import RecipeManagement from "./pages/Admin/RecipeManagement";
+import ExerciseManagement from "./pages/Admin/ExerciseManagement";
+import { User } from "lucide-react";
 
 export default function AppRoutes() {
     return (
@@ -14,7 +19,14 @@ export default function AppRoutes() {
           <Route path="/login" element={<Login />} />
           <Route path="/pass" element={<PasswordReset />} />
           <Route path="/register" element={<Register />} />
+          {/* User Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* For Admin */}
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="/usermanagement" element={<UserManagement />} />
+          <Route path="/recipemanagement" element={<RecipeManagement />} />
+          <Route path="/exercisemanagement" element={<ExerciseManagement />} />
         </Routes>
       </BrowserRouter>
     );

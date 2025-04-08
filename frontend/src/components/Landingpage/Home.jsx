@@ -31,7 +31,7 @@ function Home(){
         <div className="w-full md:w-1/2 flex justify-center">
           <img
             src={muscleman}
-            className="w-3/4 md:w-full max-w-xs md:max-w-md h-auto rounded-full drop-shadow-[0_0_10px_#CD4E17]"
+            className="w-3/4 md:w-full max-w-xs md:max-w-md h-auto rounded-full hover:drop-shadow-[0_0_10px_#CD4E17]"
             alt="Fitness App Home"
           />
         </div>

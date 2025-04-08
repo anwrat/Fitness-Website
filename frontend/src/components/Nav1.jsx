@@ -17,7 +17,7 @@ function Nav1(){
             <img 
                 src={logo} 
                 alt="Brand Logo" 
-                className="h-12 md:h-20 w-auto" 
+                className="h-12 md:h-20 w-auto hover:drop-shadow-[0_0_10px_#CD4E17]" 
             />
         </div>
         {/* Middle - Navigation Links */}
