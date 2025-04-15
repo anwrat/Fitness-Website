@@ -69,11 +69,14 @@ function ExerciseManagement() {
                 </tbody>
             </table>
 
-            <div className="w-1/2 mt-6">
+            <div className="w-1/2 mt-6 mx-auto">
                 <NormalButton
                     text="Create a Workout"
                     bgColor="green"
                     onClick={() => navigate("/createWorkout")}
+                    textColor="white"
+                    hoverBg="white"
+                    hoverText="green"
                 />
             </div>
 
