@@ -84,7 +84,7 @@ function ExerciseManagement() {
             {showDeletePopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg text-center">
-                        <p className="mb-4 text-lg font-semibold">
+                        <p className="mb-4 text-lg text-black font-semibold">
                             Are you sure you want to delete <span className="text-red-600">{selectedExercise.name}</span>?
                         </p>
                         <div className="flex justify-center space-x-4">
