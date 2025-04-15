@@ -33,7 +33,7 @@ function AdminNav() {
             {[
             { path: '/admindashboard', label: 'Dashboard' },
             { path: '/usermanagement', label: 'Users' },
-            { path: '/exercisemanagement', label: 'Exercises' },
+            { path: '/exercisemanagement', label: 'Workouts' },
             { path: '/recipemanagement', label: 'Recipes' }
             ].map(({ path, label }) => (
             <a
