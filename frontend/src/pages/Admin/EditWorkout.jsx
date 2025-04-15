@@ -1,7 +1,11 @@
 import { useState } from "react";
 import AdminNav from "../../components/AdminNav";
+import NormalButton from "../../components/NormalButton";
+import { useNavigate } from "react-router-dom";
 
 function EditWorkout() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -44,7 +48,7 @@ function EditWorkout() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     />
                 </div>
 
@@ -57,7 +61,7 @@ function EditWorkout() {
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     />
                 </div>
 
@@ -69,7 +73,7 @@ function EditWorkout() {
                         name="instructions"
                         value={formData.instructions}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     />
                 </div>
 
@@ -81,7 +85,7 @@ function EditWorkout() {
                         name="intensity"
                         value={formData.intensity}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     >
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
@@ -97,7 +101,7 @@ function EditWorkout() {
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     >
                         <option value="calisthenics">Calisthenics</option>
                         <option value="weightlifting">Weightlifting</option>
@@ -113,7 +117,7 @@ function EditWorkout() {
                         name="muscle_group"
                         value={formData.muscle_group}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     >
                         <option value="chest">Chest</option>
                         <option value="back">Back</option>
@@ -131,18 +135,17 @@ function EditWorkout() {
                         name="image_url"
                         value={formData.image_url}
                         onChange={handleChange}
-                        className="w-full p-2 mt-1 border border-gray-300 rounded"
+                        className="w-full p-2 mt-1 border border-gray-300 rounded text-black"
                     />
                 </div>
 
                 {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded mt-4"
-                >
-                    Add Workout
-                </button>
+                <NormalButton text="Submit" btype="submit" textColor="white" bgColor="green" hoverBg="white" hoverText="green"/>
             </form>
+                {/* Cancel Button */}
+                <div className="w-1/2 mx-auto mt-4">
+                    <NormalButton text="Cancel" textColor="white" onClick={()=>navigate("/exercisemanagement")} bgColor="red" hoverBg="white" hoverText="red"/>
+                </div>
         </div>
     );
 }

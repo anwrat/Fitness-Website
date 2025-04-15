@@ -1,7 +1,11 @@
 import { useState } from "react";
 import AdminNav from "../../components/AdminNav";
+import NormalButton from "../../components/NormalButton";
+import { useNavigate } from "react-router-dom";
 
 function CreateWorkout() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -136,13 +140,12 @@ function CreateWorkout() {
                 </div>
 
                 {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded mt-4"
-                >
-                    Add Workout
-                </button>
+                <NormalButton text="Add Workout" btype="submit" textColor="white" bgColor="green" hoverBg="white" hoverText="green"/>
             </form>
+                {/* Cancel Button */}
+                <div className="w-1/2 mx-auto mt-4">
+                    <NormalButton text="Cancel" textColor="white" onClick={()=>navigate("/exercisemanagement")} bgColor="red" hoverBg="white" hoverText="red"/>
+                </div>
         </div>
     );
 }
