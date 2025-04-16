@@ -9,7 +9,7 @@ class Workout(models.Model):
     ]
     INTENSITY_CHOICES = [
         ('Low', 'Low'),
-        ('Moderate', 'Moderate'),
+        ('Medium', 'Medium'),
         ('High', 'High'),
     ]
     MUSCLE_GROUPS = [
