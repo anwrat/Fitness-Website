@@ -1,35 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import AdminNav from "../../components/AdminNav";
 import NormalButton from "../../components/NormalButton";
 
 function ExerciseManagement() {
     const navigate = useNavigate();
 
+    // States to manage delete confirmation popup and selected exercise for deletion
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [exercises, setExercises] = useState([]);  // State to store fetched exercises
 
-    const exercises = [
-        { name: "Burpees", muscleGroup: "Full Body" },
-        { name: "Push Ups", muscleGroup: "Chest" },
-        // Add more exercises as needed
-    ];
+    // Fetch exercises from API when the component mounts
+    useEffect(() => {
+        const fetchExercises = async () => {
+            try {
+                // Make an API call to fetch workouts
+                const response = await axios.get("http://127.0.0.1:8000/api/workouts/");
+                console.log("Fetched exercises:", response.data);  // Log the API response to check the data structure
+                setExercises(response.data);  // Set the fetched exercises data to state
+            } catch (error) {
+                console.error("Error fetching exercises:", error);  // Log error if fetching fails
+            }
+        };
 
+        fetchExercises();  // Call the function to fetch exercises
+    }, []);  // Empty dependency array ensures this runs only once after initial render
+
+    // Function to handle the click on the delete button
     const handleDeleteClick = (exercise) => {
-        setSelectedExercise(exercise);
-        setShowDeletePopup(true);
+        setSelectedExercise(exercise);  // Store the selected exercise for deletion
+        setShowDeletePopup(true);  // Show the delete confirmation popup
     };
 
-    const confirmDelete = () => {
-        console.log(`Deleted: ${selectedExercise.name}`);
-        setShowDeletePopup(false);
-        setSelectedExercise(null);
-        // Add your API call here to delete the exercise
+    // Function to confirm the deletion and send a request to delete
+    const confirmDelete = async () => {
+        try {
+            // Make an API call to delete the selected exercise by ID
+            await axios.delete(`http://127.0.0.1:8000/api/workouts/${selectedExercise.id}/`);
+            // Filter out the deleted exercise from the state to update the table view
+            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id)); 
+        } catch (error) {
+            console.error("Error deleting exercise:", error);  // Log error if deleting fails
+        } finally {
+            // Close the popup after deleting or on cancel
+            setShowDeletePopup(false);
+            setSelectedExercise(null);  // Reset selected exercise state
+        }
     };
 
+    // Function to cancel the deletion action and close the popup
     const cancelDelete = () => {
-        setShowDeletePopup(false);
-        setSelectedExercise(null);
+        setShowDeletePopup(false);  // Close the delete popup
+        setSelectedExercise(null);  // Reset selected exercise state
     };
 
     return (
@@ -37,6 +61,7 @@ function ExerciseManagement() {
             <AdminNav />
             <h1 className="text-black text-center mb-10">Exercise Management</h1>
 
+            {/* Table to display all exercises */}
             <table className="text-black text-left w-full border">
                 <thead>
                     <tr className="border bg-gray-100">
@@ -46,29 +71,37 @@ function ExerciseManagement() {
                     </tr>
                 </thead>
                 <tbody>
-                    {exercises.map((exercise, index) => (
-                        <tr key={index} className="border">
-                            <td className="border px-2 py-1">{exercise.name}</td>
-                            <td className="border px-2 py-1">{exercise.muscleGroup}</td>
-                            <td className="border px-2 py-1 flex items-center justify-center space-x-4">
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
-                                    alt="Edit"
-                                    className="w-5 h-5 cursor-pointer"
-                                    onClick={() => navigate(`/editWorkout`)}
-                                />
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
-                                    alt="Delete"
-                                    className="w-5 h-5 cursor-pointer"
-                                    onClick={() => handleDeleteClick(exercise)}
-                                />
-                            </td>
+                    {/* Map through exercises and display each one */}
+                    {exercises.length > 0 ? (
+                        exercises.map((exercise) => (
+                            <tr key={exercise.id} className="border">
+                                <td className="border px-2 py-1">{exercise.name}</td>
+                                <td className="border px-2 py-1">{exercise.muscle_group}</td>
+                                <td className="border px-2 py-1 flex items-center justify-center space-x-4">
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
+                                        alt="Edit"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => navigate(`/editWorkout`)} // Navigate to edit page
+                                    />
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
+                                        alt="Delete"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => handleDeleteClick(exercise)} // Trigger delete confirmation
+                                    />
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="9" className="text-center py-4">No exercises available</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
 
+            {/* Button to create a new workout */}
             <div className="w-1/2 mt-6 mx-auto">
                 <NormalButton
                     text="Create a Workout"

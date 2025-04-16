@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',  # CORS headers for cross-origin requests
     'users',# Your app for user authentication
     'rest_framework_simplejwt',
+    'admin_workouts',
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # This ensures other views require auth
+    ],
 }
