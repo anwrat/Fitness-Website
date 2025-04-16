@@ -66,7 +66,12 @@ function ExerciseManagement() {
                 <thead>
                     <tr className="border bg-gray-100">
                         <th className="border px-2 py-1">Name</th>
+                        <th className="border px-2 py-1">Category</th>
+                        <th className="border px-2 py-1">Intensity</th>
                         <th className="border px-2 py-1">Muscle Group</th>
+                        <th className="border px-2 py-1">Description</th>
+                        <th className="border px-2 py-1">Instructions</th>
+                        <th className="border px-2 py-1">Image</th>
                         <th className="border px-2 py-1 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -76,14 +81,31 @@ function ExerciseManagement() {
                         exercises.map((exercise) => (
                             <tr key={exercise.id} className="border">
                                 <td className="border px-2 py-1">{exercise.name}</td>
+                                <td className="border px-2 py-1">{exercise.category}</td>
+                                <td className="border px-2 py-1">{exercise.intensity}</td>
                                 <td className="border px-2 py-1">{exercise.muscle_group}</td>
+                                <td className="border px-2 py-1">{exercise.description}</td>
+                                <td className="border px-2 py-1">{exercise.instruction}</td>
+                                <td className="border px-2 py-1">
+                                    {exercise.image_url ? (
+                                        <img
+                                            src={exercise.image_url} // Display the image from the URL in the database
+                                            alt={exercise.name}
+                                            className="w-20 h-20 object-cover"
+                                        />
+                                    ) : (
+                                        "No image" // Display this text if no image URL is available
+                                    )}
+                                </td>
                                 <td className="border px-2 py-1 flex items-center justify-center space-x-4">
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
                                         alt="Edit"
                                         className="w-5 h-5 cursor-pointer"
-                                        onClick={() => navigate(`/editWorkout`)} // Navigate to edit page
+                                        onClick={() => navigate(`/editWorkout/${exercise.id}`)} // Pass exercise ID in the route
                                     />
+
+                                    {/* Delete Button */}
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
                                         alt="Delete"
@@ -95,7 +117,7 @@ function ExerciseManagement() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="9" className="text-center py-4">No exercises available</td>
+                            <td colSpan="8" className="text-center py-4">No exercises available</td>
                         </tr>
                     )}
                 </tbody>

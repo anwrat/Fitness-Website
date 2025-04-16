@@ -4,6 +4,7 @@ import Programs from "./components/Landingpage/Programs";
 import Coaching from "./components/Landingpage/Coaching";
 import AboutUs from "./components/Landingpage/AboutUs";
 
+
 function App() {
   return (
     <div className="w-screen min-h-screen mx-auto bg-[#0F0505] p-8 text-center">
