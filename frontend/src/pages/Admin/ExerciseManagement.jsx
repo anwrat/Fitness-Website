@@ -65,13 +65,13 @@ function ExerciseManagement() {
             <table className="text-black text-left w-full border">
                 <thead>
                     <tr className="border bg-gray-100">
-                        <th className="border px-2 py-1">Name</th> {/* Removed ID column */}
+                        <th className="border px-2 py-1">Name</th>
                         <th className="border px-2 py-1">Category</th>
                         <th className="border px-2 py-1">Intensity</th>
                         <th className="border px-2 py-1">Muscle Group</th>
                         <th className="border px-2 py-1">Description</th>
                         <th className="border px-2 py-1">Instructions</th>
-                        <th className="border px-2 py-1">Image</th> {/* Changed 'Image URL' to 'Image' */}
+                        <th className="border px-2 py-1">Image</th>
                         <th className="border px-2 py-1 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -98,7 +98,6 @@ function ExerciseManagement() {
                                     )}
                                 </td>
                                 <td className="border px-2 py-1 flex items-center justify-center space-x-4">
-                                    {/* Edit Button */}
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
                                         alt="Edit"
@@ -144,17 +143,15 @@ function ExerciseManagement() {
                             Are you sure you want to delete <span className="text-red-600">{selectedExercise.name}</span>?
                         </p>
                         <div className="flex justify-center space-x-4">
-                            {/* Confirm Delete Button */}
                             <button
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                onClick={confirmDelete}  // Confirm deletion action
+                                onClick={confirmDelete}
                             >
                                 Yes, Delete
                             </button>
-                            {/* Cancel Delete Button */}
                             <button
                                 className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                                onClick={cancelDelete}  // Close the popup without deleting
+                                onClick={cancelDelete}
                             >
                                 Cancel
                             </button>
