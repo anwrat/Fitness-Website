@@ -9,8 +9,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserManagement from "./pages/Admin/UserManagement";
 import RecipeManagement from "./pages/Admin/RecipeManagement";
 import ExerciseManagement from "./pages/Admin/ExerciseManagement";
-import CreateWorkout from "./pages/Admin/CreateWorkout";
-import EditWorkout from "./pages/Admin/EditWorkout";
+import { User } from "lucide-react";
 
 export default function AppRoutes() {
     return (
@@ -28,8 +27,6 @@ export default function AppRoutes() {
           <Route path="/usermanagement" element={<UserManagement />} />
           <Route path="/recipemanagement" element={<RecipeManagement />} />
           <Route path="/exercisemanagement" element={<ExerciseManagement />} />
-          <Route path="/createWorkout" element={<CreateWorkout />} />
-          <Route path="/editWorkout" element={<EditWorkout />} />
         </Routes>
       </BrowserRouter>
     );

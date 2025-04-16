@@ -47,7 +47,7 @@ function Register() {
         setMessage(data.error || "Something went wrong");
       } else {
         setMessage("Registration successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate("/login"),1000);
       }
     } catch (error) {
       setMessage("Failed to connect to the server");

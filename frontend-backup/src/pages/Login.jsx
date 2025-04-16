@@ -8,18 +8,6 @@ import InputField from "../components/InputField"; // Importing the InputField c
 function Login() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const [formvalue,setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,16 +26,9 @@ function Login() {
       if (!response.ok) {
         setMessage(data.error || "Invalid credentials");
       } else {
-        if(formvalue.username=="admin@gmail.com" && formvalue.password=="admin"){
-          localStorage.setItem("token", data.access);
-          setMessage("Welcome Admin!!");
-          setTimeout(() => navigate("/admindashboard"), 2000);
-        }
-        else{
-          localStorage.setItem("token", data.access);
-          setMessage("Login successful! Redirecting...");
-          setTimeout(() => navigate("/dashboard"), 2000);
-        }
+        localStorage.setItem("token", data.access);
+        setMessage("Login successful! Redirecting...");
+        setTimeout(() => navigate("/dashboard"), 2000);
       }
     } catch (error) {
       setMessage("Failed to connect to the server");
@@ -66,7 +47,7 @@ function Login() {
           
           <div className="mb-4">
             <label className="block text-sm font-medium">Email</label>
-            <InputField name="username" value={formvalue.username} onChange={handleChange} placeholder="Enter your email" fieldtype="email" showToggle={false}/>
+            <InputField name="username" placeholder="Enter your email" fieldtype="email" showToggle={false}/>
           </div>
 
           {/* Use InputField component for password */}
@@ -75,8 +56,6 @@ function Login() {
             <InputField
               name="password"
               fieldtype="password"
-              value={formvalue.password}
-              onChange={handleChange}
               placeholder="Enter your password"
               showToggle={true} 
             />
