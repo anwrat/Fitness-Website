@@ -1,30 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import AdminNav from "../../components/AdminNav";
 import NormalButton from "../../components/NormalButton";
 
 function ExerciseManagement() {
     const navigate = useNavigate();
-
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [exercises, setExercises] = useState([]);
 
-    const exercises = [
-        { name: "Burpees", muscleGroup: "Full Body" },
-        { name: "Push Ups", muscleGroup: "Chest" },
-        // Add more exercises as needed
-    ];
+    useEffect(() => {
+        const fetchExercises = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/api/workouts/");
+                console.log("Fetched exercises:", response.data);
+                setExercises(response.data);
+            } catch (error) {
+                console.error("Error fetching exercises:", error);
+            }
+        };
+
+        fetchExercises();
+    }, []);
 
     const handleDeleteClick = (exercise) => {
         setSelectedExercise(exercise);
         setShowDeletePopup(true);
     };
 
-    const confirmDelete = () => {
-        console.log(`Deleted: ${selectedExercise.name}`);
-        setShowDeletePopup(false);
-        setSelectedExercise(null);
-        // Add your API call here to delete the exercise
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/workouts/${selectedExercise.id}/`);
+            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id));
+        } catch (error) {
+            console.error("Error deleting exercise:", error);
+        } finally {
+            setShowDeletePopup(false);
+            setSelectedExercise(null);
+        }
     };
 
     const cancelDelete = () => {
@@ -41,31 +55,57 @@ function ExerciseManagement() {
                 <thead>
                     <tr className="border bg-gray-100">
                         <th className="border px-2 py-1">Name</th>
+                        <th className="border px-2 py-1">Category</th>
+                        <th className="border px-2 py-1">Intensity</th>
                         <th className="border px-2 py-1">Muscle Group</th>
+                        <th className="border px-2 py-1">Description</th>
+                        <th className="border px-2 py-1">Instructions</th>
+                        <th className="border px-2 py-1">Image</th>
                         <th className="border px-2 py-1 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {exercises.map((exercise, index) => (
-                        <tr key={index} className="border">
-                            <td className="border px-2 py-1">{exercise.name}</td>
-                            <td className="border px-2 py-1">{exercise.muscleGroup}</td>
-                            <td className="border px-2 py-1 flex items-center justify-center space-x-4">
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
-                                    alt="Edit"
-                                    className="w-5 h-5 cursor-pointer"
-                                    onClick={() => navigate(`/editWorkout`)}
-                                />
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
-                                    alt="Delete"
-                                    className="w-5 h-5 cursor-pointer"
-                                    onClick={() => handleDeleteClick(exercise)}
-                                />
-                            </td>
+                    {exercises.length > 0 ? (
+                        exercises.map((exercise) => (
+                            <tr key={exercise.id} className="border">
+                                <td className="border px-2 py-1">{exercise.name}</td>
+                                <td className="border px-2 py-1">{exercise.category}</td>
+                                <td className="border px-2 py-1">{exercise.intensity}</td>
+                                <td className="border px-2 py-1">{exercise.muscle_group}</td>
+                                <td className="border px-2 py-1">{exercise.description}</td>
+                                <td className="border px-2 py-1">{exercise.instruction}</td>
+                                <td className="border px-2 py-1">
+                                    {exercise.image_url ? (
+                                        <img
+                                            src={exercise.image_url}
+                                            alt={exercise.name}
+                                            className="w-20 h-20 object-cover"
+                                        />
+                                    ) : (
+                                        "No image"
+                                    )}
+                                </td>
+                                <td className="border px-2 py-1 flex items-center justify-center space-x-4">
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
+                                        alt="Edit"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => navigate(`/editWorkout/${exercise.id}`)}
+                                    />
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
+                                        alt="Delete"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => handleDeleteClick(exercise)}
+                                    />
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="8" className="text-center py-4">No exercises available</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
 
@@ -80,7 +120,6 @@ function ExerciseManagement() {
                 />
             </div>
 
-            {/* Delete confirmation popup */}
             {showDeletePopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg text-center">
