@@ -29,7 +29,7 @@ export default function AppRoutes() {
           <Route path="/recipemanagement" element={<RecipeManagement />} />
           <Route path="/exercisemanagement" element={<ExerciseManagement />} />
           <Route path="/createWorkout" element={<CreateWorkout />} />
-          <Route path="/editWorkout" element={<EditWorkout />} />
+          <Route path="/editWorkout/:id" element={<EditWorkout />} />
         </Routes>
       </BrowserRouter>
     );

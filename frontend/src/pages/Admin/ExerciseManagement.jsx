@@ -6,54 +6,44 @@ import NormalButton from "../../components/NormalButton";
 
 function ExerciseManagement() {
     const navigate = useNavigate();
-
-    // States to manage delete confirmation popup and selected exercise for deletion
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
-    const [exercises, setExercises] = useState([]);  // State to store fetched exercises
+    const [exercises, setExercises] = useState([]);
 
-    // Fetch exercises from API when the component mounts
     useEffect(() => {
         const fetchExercises = async () => {
             try {
-                // Make an API call to fetch workouts
                 const response = await axios.get("http://127.0.0.1:8000/api/workouts/");
-                console.log("Fetched exercises:", response.data);  // Log the API response to check the data structure
-                setExercises(response.data);  // Set the fetched exercises data to state
+                console.log("Fetched exercises:", response.data);
+                setExercises(response.data);
             } catch (error) {
-                console.error("Error fetching exercises:", error);  // Log error if fetching fails
+                console.error("Error fetching exercises:", error);
             }
         };
 
-        fetchExercises();  // Call the function to fetch exercises
-    }, []);  // Empty dependency array ensures this runs only once after initial render
+        fetchExercises();
+    }, []);
 
-    // Function to handle the click on the delete button
     const handleDeleteClick = (exercise) => {
-        setSelectedExercise(exercise);  // Store the selected exercise for deletion
-        setShowDeletePopup(true);  // Show the delete confirmation popup
+        setSelectedExercise(exercise);
+        setShowDeletePopup(true);
     };
 
-    // Function to confirm the deletion and send a request to delete
     const confirmDelete = async () => {
         try {
-            // Make an API call to delete the selected exercise by ID
             await axios.delete(`http://127.0.0.1:8000/api/workouts/${selectedExercise.id}/`);
-            // Filter out the deleted exercise from the state to update the table view
-            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id)); 
+            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id));
         } catch (error) {
-            console.error("Error deleting exercise:", error);  // Log error if deleting fails
+            console.error("Error deleting exercise:", error);
         } finally {
-            // Close the popup after deleting or on cancel
             setShowDeletePopup(false);
-            setSelectedExercise(null);  // Reset selected exercise state
+            setSelectedExercise(null);
         }
     };
 
-    // Function to cancel the deletion action and close the popup
     const cancelDelete = () => {
-        setShowDeletePopup(false);  // Close the delete popup
-        setSelectedExercise(null);  // Reset selected exercise state
+        setShowDeletePopup(false);
+        setSelectedExercise(null);
     };
 
     return (
@@ -61,7 +51,6 @@ function ExerciseManagement() {
             <AdminNav />
             <h1 className="text-black text-center mb-10">Exercise Management</h1>
 
-            {/* Table to display all exercises */}
             <table className="text-black text-left w-full border">
                 <thead>
                     <tr className="border bg-gray-100">
@@ -76,7 +65,6 @@ function ExerciseManagement() {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Map through exercises and display each one */}
                     {exercises.length > 0 ? (
                         exercises.map((exercise) => (
                             <tr key={exercise.id} className="border">
@@ -89,12 +77,12 @@ function ExerciseManagement() {
                                 <td className="border px-2 py-1">
                                     {exercise.image_url ? (
                                         <img
-                                            src={exercise.image_url} // Display the image from the URL in the database
+                                            src={exercise.image_url}
                                             alt={exercise.name}
                                             className="w-20 h-20 object-cover"
                                         />
                                     ) : (
-                                        "No image" // Display this text if no image URL is available
+                                        "No image"
                                     )}
                                 </td>
                                 <td className="border px-2 py-1 flex items-center justify-center space-x-4">
@@ -102,15 +90,13 @@ function ExerciseManagement() {
                                         src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
                                         alt="Edit"
                                         className="w-5 h-5 cursor-pointer"
-                                        onClick={() => navigate(`/editWorkout/${exercise.id}`)} // Pass exercise ID in the route
+                                        onClick={() => navigate(`/editWorkout/${exercise.id}`)}
                                     />
-
-                                    {/* Delete Button */}
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
                                         alt="Delete"
                                         className="w-5 h-5 cursor-pointer"
-                                        onClick={() => handleDeleteClick(exercise)} // Trigger delete confirmation
+                                        onClick={() => handleDeleteClick(exercise)}
                                     />
                                 </td>
                             </tr>
@@ -123,7 +109,6 @@ function ExerciseManagement() {
                 </tbody>
             </table>
 
-            {/* Button to create a new workout */}
             <div className="w-1/2 mt-6 mx-auto">
                 <NormalButton
                     text="Create a Workout"
@@ -135,7 +120,6 @@ function ExerciseManagement() {
                 />
             </div>
 
-            {/* Delete confirmation popup */}
             {showDeletePopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg text-center">
