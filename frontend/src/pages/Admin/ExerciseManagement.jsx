@@ -65,14 +65,8 @@ function ExerciseManagement() {
             <table className="text-black text-left w-full border">
                 <thead>
                     <tr className="border bg-gray-100">
-                        <th className="border px-2 py-1">ID</th>
                         <th className="border px-2 py-1">Name</th>
-                        <th className="border px-2 py-1">Category</th>
-                        <th className="border px-2 py-1">Intensity</th>
                         <th className="border px-2 py-1">Muscle Group</th>
-                        <th className="border px-2 py-1">Description</th>
-                        <th className="border px-2 py-1">Instructions</th>
-                        <th className="border px-2 py-1">Image URL</th>
                         <th className="border px-2 py-1 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -81,23 +75,15 @@ function ExerciseManagement() {
                     {exercises.length > 0 ? (
                         exercises.map((exercise) => (
                             <tr key={exercise.id} className="border">
-                                <td className="border px-2 py-1">{exercise.id}</td>  {/* Display ID */}
                                 <td className="border px-2 py-1">{exercise.name}</td>
-                                <td className="border px-2 py-1">{exercise.category}</td>  {/* Display category */}
-                                <td className="border px-2 py-1">{exercise.intensity}</td>  {/* Display intensity */}
                                 <td className="border px-2 py-1">{exercise.muscle_group}</td>
-                                <td className="border px-2 py-1">{exercise.description}</td>
-                                <td className="border px-2 py-1">{exercise.instruction}</td>  {/* Display instructions */}
-                                <td className="border px-2 py-1">{exercise.image_url || "No image"}</td>  {/* Display image URL or 'No image' */}
                                 <td className="border px-2 py-1 flex items-center justify-center space-x-4">
-                                    {/* Edit Button */}
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png"
                                         alt="Edit"
                                         className="w-5 h-5 cursor-pointer"
                                         onClick={() => navigate(`/editWorkout`)} // Navigate to edit page
                                     />
-                                    {/* Delete Button */}
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png"
                                         alt="Delete"
@@ -135,17 +121,15 @@ function ExerciseManagement() {
                             Are you sure you want to delete <span className="text-red-600">{selectedExercise.name}</span>?
                         </p>
                         <div className="flex justify-center space-x-4">
-                            {/* Confirm Delete Button */}
                             <button
                                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                                onClick={confirmDelete}  // Confirm deletion action
+                                onClick={confirmDelete}
                             >
                                 Yes, Delete
                             </button>
-                            {/* Cancel Delete Button */}
                             <button
                                 className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                                onClick={cancelDelete}  // Close the popup without deleting
+                                onClick={cancelDelete}
                             >
                                 Cancel
                             </button>
