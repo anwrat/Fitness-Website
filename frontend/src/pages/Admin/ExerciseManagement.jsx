@@ -32,7 +32,7 @@ function ExerciseManagement() {
     const confirmDelete = async () => {
         try {
             await axios.delete(`http://127.0.0.1:8000/api/workouts/${selectedExercise.id}/`);
-            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id)); 
+            setExercises(exercises.filter(exercise => exercise.id !== selectedExercise.id));
         } catch (error) {
             console.error("Error deleting exercise:", error);
         } finally {
@@ -54,14 +54,12 @@ function ExerciseManagement() {
             <table className="text-black text-left w-full border">
                 <thead>
                     <tr className="border bg-gray-100">
-                        {/* Removed ID column */}
                         <th className="border px-2 py-1">Name</th>
                         <th className="border px-2 py-1">Category</th>
                         <th className="border px-2 py-1">Intensity</th>
                         <th className="border px-2 py-1">Muscle Group</th>
                         <th className="border px-2 py-1">Description</th>
                         <th className="border px-2 py-1">Instructions</th>
-                        {/* Changed 'Image URL' to 'Image' */}
                         <th className="border px-2 py-1">Image</th>
                         <th className="border px-2 py-1 text-center">Actions</th>
                     </tr>
