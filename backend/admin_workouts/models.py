@@ -1,3 +1,4 @@
+#Database setup for workout management
 from django.db import models
 
 class Workout(models.Model):
