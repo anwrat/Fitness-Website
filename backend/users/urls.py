@@ -1,3 +1,4 @@
+#Creating urls for frontend to communicate with backend 
 from django.urls import path
 from users.views import register, login
 
