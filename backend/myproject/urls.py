@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('register/', register, name='register'),
     path('api/', include('admin_workouts.urls')),  # Include workouts API URLs
+    path('api/', include('recipe.urls')),  # Include workouts API URLs
 ]
 
 # from django.contrib import admin
