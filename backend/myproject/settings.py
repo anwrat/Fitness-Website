@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',# Your app for user authentication
     'rest_framework_simplejwt',
     'admin_workouts',
+    'recipe',
 ]
 
 MIDDLEWARE = [
