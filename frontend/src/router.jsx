@@ -12,6 +12,9 @@ import EditRecipe from "./pages/Admin/EditRecipe";
 import ExerciseManagement from "./pages/Admin/ExerciseManagement";
 import CreateWorkout from "./pages/Admin/CreateWorkout";
 import EditWorkout from "./pages/Admin/EditWorkout";
+import Exercises from "./pages/User/Exercises";
+import Recipes from "./pages/User/Recipes";
+import Tools from "./pages/User/Tools";
 
 export default function AppRoutes() {
     return (
@@ -34,6 +37,11 @@ export default function AppRoutes() {
           <Route path="/exercisemanagement" element={<ExerciseManagement />} />
           <Route path="/createWorkout" element={<CreateWorkout />} />
           <Route path="/editWorkout/:id" element={<EditWorkout />} />
+          
+          {/* User Routes */}
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/tools" element={<Tools />} />
         </Routes>
       </BrowserRouter>
     );

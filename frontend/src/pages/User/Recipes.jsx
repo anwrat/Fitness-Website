@@ -1,13 +1,13 @@
 import UserNav from "../../components/UserNav";
 
-function Dashboard(){
+function Recipes(){
     return(
         <div className="w-screen min-h-screen">
             <UserNav />
             <div className="pt-24 px-10">
-                <h1 className="text-black">This is User Dashboard</h1>
+                <h1 className="text-black">This is Recipes Page</h1>
             </div>
         </div>
     );
 }
-export default Dashboard;
+export default Recipes;
