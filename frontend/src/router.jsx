@@ -15,6 +15,7 @@ import EditWorkout from "./pages/Admin/EditWorkout";
 import Exercises from "./pages/User/Exercises";
 import Recipes from "./pages/User/Recipes";
 import Tools from "./pages/User/Tools";
+import BMICalculator from "./pages/User/Tools/BMICalculator";
 
 export default function AppRoutes() {
     return (
@@ -42,6 +43,9 @@ export default function AppRoutes() {
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/tools" element={<Tools />} />
+
+          {/* Tools */}
+          <Route path="/tools/bmi" element={<BMICalculator />} />
         </Routes>
       </BrowserRouter>
     );
