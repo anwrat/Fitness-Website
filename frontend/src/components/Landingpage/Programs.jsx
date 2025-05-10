@@ -1,10 +1,4 @@
-import React from "react";
-// import weightLoss from "../../assets/weight loss.jpg";
-// import muscleGain from "../../assets/musclegain.jpg";
-// import beginner from "../../assets/beginner.jpg";
-// import homeWorkout from "../../assets/homeworkout.jpg";
-// import athletic from "../../assets/athletic.jpg";
-// import mobility from "../../assets/mobility.jpg";
+import { useNavigate } from "react-router-dom";
 
 const programs = [
   {
@@ -40,8 +34,11 @@ const programs = [
 ];
 
 const Programs = () => {
+
+  const navigate = useNavigate();
+
   return (
-    <div className="mt-20 px-6 text-white" id="programs">
+    <div className="mt-20 px-6 text-white cursor-pointer" id="programs" onClick={()=>navigate('/register')}>
       <h2 className="text-4xl font-bold text-center mb-2">Our Programs</h2>
       <p className="text-center text-sm text-gray-400 uppercase mb-10">Find the program that fits your goals</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
