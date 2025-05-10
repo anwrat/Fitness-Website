@@ -34,17 +34,17 @@ const Tools = () => {
     {
       title: "Protein Intake Calculator",
       desc: "Determine your daily protein requirements",
-      path: "/tools/sleep-quality"
+      path: "/tools/protein-intake"
     },
     {
       title: "Water Intake Calculator",
       desc: "Calculate your daily water intake needs",
-      path: "/tools/sleep-quality"
+      path: "/tools/water-intake"
     },
     {
       title: "1 Rep Max Calculator",
       desc: "Calculate your 1 repetition maximum for various exercises",
-      path: "/tools/sleep-quality"
+      path: "/tools/rep-max"
     }
   ];
 
