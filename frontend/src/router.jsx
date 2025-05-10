@@ -16,6 +16,7 @@ import Exercises from "./pages/User/Exercises";
 import Recipes from "./pages/User/Recipes";
 import Tools from "./pages/User/Tools";
 import BMICalculator from "./pages/User/Tools/BMICalculator";
+import CalorieCalculator from "./pages/User/Tools/CalorieCalculator";
 
 export default function AppRoutes() {
     return (
@@ -46,6 +47,7 @@ export default function AppRoutes() {
 
           {/* Tools */}
           <Route path="/tools/bmi" element={<BMICalculator />} />
+          <Route path="/tools/calorie" element={<CalorieCalculator/>} />
         </Routes>
       </BrowserRouter>
     );
