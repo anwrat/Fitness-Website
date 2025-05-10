@@ -25,6 +25,7 @@ def register(request):
         data = request.data
         username = data.get("username")
         password = data.get("password")
+        email = data.get("email")  # Get the email field from the request data
         first_name = data.get("first_name")
         last_name = data.get("last_name")
         height = data.get("height")
@@ -33,17 +34,23 @@ def register(request):
         gender = data.get("gender")
         avatar = data.get("avatar")
 
-        if not username or not password:
-            return Response({"error": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        # Validate if username, password, and email are provided
+        if not username or not password or not email:
+            return Response({"error": "Username, password, and email are required."}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Check if the username already exists
         if User.objects.filter(username=username).exists():
             return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if the email already exists
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not isinstance(date_of_birth, str):
             return Response({"error": "Date of birth should be in YYYY-MM-DD format."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create user
-        user = User.objects.create_user(username=username, password=password)
+        # Create user with email and password
+        user = User.objects.create_user(username=username, password=password, email=email)
 
         # Create user details
         UserDetails.objects.create(
@@ -67,22 +74,36 @@ def register(request):
 @permission_classes([AllowAny])
 def login(request):
     """
-    Log in a user and return a JWT token.
+    Log in a user using either their username or email and return a JWT token.
+    Also returns the user's role (admin or regular user).
     """
     try:
         data = request.data
-        username = data.get("username")
+        username_or_email = data.get("username")  # This can be either username or email
         password = data.get("password")
 
-        if not username or not password:
-            return Response({"error": "Username and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not username_or_email or not password:
+            return Response({"error": "Username/email and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = authenticate(request, username=username, password=password)
-        if user:
+        # Try to find user by username or email
+        user = None
+
+        # Check if the provided username_or_email is an email
+        if '@' in username_or_email:
+            user = User.objects.filter(email=username_or_email).first()
+        else:
+            user = User.objects.filter(username=username_or_email).first()
+
+        if user and user.check_password(password):  # Check if the password matches
             refresh = RefreshToken.for_user(user)
+            
+            # Check if the user is an admin (using is_staff or is_superuser)
+            role = "admin" if user.is_staff else "user"
+            
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
+                'role': role,  # Return the role of the user
                 'message': 'Login successful'
             })
         else:

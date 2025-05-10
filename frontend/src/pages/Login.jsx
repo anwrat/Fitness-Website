@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginimage from "../assets/loginpage.jpg";
-// //Importing the NormalButton component
+// Importing the NormalButton component
 import NormalButton from "../components/NormalButton";
 import InputField from "../components/InputField"; // Importing the InputField component
 
 function Login() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const [formvalue,setFormData] = useState({
-    username: "",
+  const [formvalue, setFormData] = useState({
+    username: "", // This will accept both username or email
     password: "",
   });
 
@@ -24,27 +24,41 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    
-    const formData = new FormData(e.target);
-    
+
+    // Check if the username is 'admin' or email is 'admin@gmail.com'
+    if (formvalue.username === "admin" || formvalue.username === "admin@gmail.com") {
+      setMessage("Welcome Admin!!");
+      setTimeout(() => navigate("/admindashboard"), 2000); // Redirect to admin dashboard immediately
+      return; // Stop further execution
+    }
+
+    // If not admin, proceed with the normal login process
+    const loginData = {
+      username: formvalue.username,
+      password: formvalue.password,
+    };
+
     try {
       const response = await fetch("http://localhost:8000/api/login/", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         setMessage(data.error || "Invalid credentials");
       } else {
-        if(formvalue.username=="admin@gmail.com" && formvalue.password=="admin"){
-          localStorage.setItem("token", data.access);
+        localStorage.setItem("token", data.access);
+
+        // Redirect based on role from backend
+        if (data.role === "admin") {
           setMessage("Welcome Admin!!");
           setTimeout(() => navigate("/admindashboard"), 2000);
-        }
-        else{
-          localStorage.setItem("token", data.access);
+        } else {
           setMessage("Login successful! Redirecting...");
           setTimeout(() => navigate("/dashboard"), 2000);
         }
@@ -59,14 +73,14 @@ function Login() {
       {/* Left Side: Form and Welcome Text */}
       <div className="w-full md:w-1/2 flex flex-col items-center">
         <h1 className="text-4xl font-bold">Welcome!</h1>
-        <h4 className="text-lg mt-2">Login with email</h4>
+        <h4 className="text-lg mt-2">Login with email or username</h4>
 
         <form onSubmit={handleSubmit} className="w-full max-w-sm p-6 rounded-lg shadow-lg mt-4">
           {message && <p className={message.includes("successful") ? "text-green-500" : "text-red-500"}>{message}</p>}
-          
+
           <div className="mb-4">
-            <label className="block text-sm font-medium">Email</label>
-            <InputField name="username" value={formvalue.username} onChange={handleChange} placeholder="Enter your email" fieldtype="email" showToggle={false}/>
+            <label className="block text-sm font-medium">Username or Email</label>
+            <InputField name="username" value={formvalue.username} onChange={handleChange} placeholder="Enter your username or email" fieldtype="text" showToggle={false} />
           </div>
 
           {/* Use InputField component for password */}
@@ -78,16 +92,16 @@ function Login() {
               value={formvalue.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              showToggle={true} 
+              showToggle={true}
             />
           </div>
 
           <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]"
-            onClick={()=>navigate('/pass')}>
+            onClick={() => navigate('/pass')}>
             Forgot your password?
           </p>
-          
-          <NormalButton btype="submit" text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14"/>
+
+          <NormalButton btype="submit" text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14" />
         </form>
 
         <p className="mt-4 text-sm">
