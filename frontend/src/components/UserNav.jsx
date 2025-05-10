@@ -8,6 +8,7 @@ function UserNav() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
+
   const linkClasses = (path) => {
     const isActive = location.pathname === path;
     return `cursor-pointer px-4 py-2 rounded-md transition-all duration-200 
@@ -33,6 +34,7 @@ function UserNav() {
             src={logo} 
             alt="Brand Logo" 
             className="h-12 md:h-16 w-auto hover:drop-shadow-[0_0_10px_#CD4E17]" 
+            onClick={() => navigate('/dashboard')} //For navigating to home page through logo
           />
           {/* Hamburger for small screens */}
           <div className="md:hidden">
