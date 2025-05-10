@@ -37,8 +37,7 @@ const Tools = () => {
     <div className="w-screen min-h-screen bg-[#0F0505]">
       <UserNav />
       <div className="mt-20 pt-30 px-10 text-white" id="coaching">
-        <h2 className="text-4xl font-bold text-center mb-2">Tools</h2>
-        <p className="text-center text-sm text-gray-400 uppercase mb-10">Calculate BMR, daily calorie needs, and macros.</p>
+        <h2 className="text-4xl font-bold text-center mb-10">Tools</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {coachingData.map((item, index) => (
             <div key={index} className="bg-[#1a1a1a] p-6 rounded-xl shadow-md hover:scale-105 transition-transform duration-300 flex flex-col">
