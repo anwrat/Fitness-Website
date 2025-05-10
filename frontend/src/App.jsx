@@ -7,17 +7,19 @@ import AboutUs from "./components/Landingpage/AboutUs";
 
 function App() {
   return (
-    <div className="w-screen min-h-screen mx-auto bg-[#0F0505] p-8 text-center">
-      <Nav1 />
-      <section id = "home">
-        <Home />
-      </section>
-      <section id = "programs">
-        <Programs />
-      </section>
-      <section id = "coaching">
-        <Coaching />
-      </section>
+    <div className="w-screen bg-[#0F0505]">
+      <div className="w-screen min-h-screen mx-auto p-8 text-center">
+        <Nav1 />
+        <section id = "home">
+          <Home />
+        </section>
+        <section id = "programs">
+          <Programs />
+        </section>
+        <section id = "coaching">
+          <Coaching />
+        </section>
+      </div>
       <section id = "about us">
         <AboutUs />
       </section>

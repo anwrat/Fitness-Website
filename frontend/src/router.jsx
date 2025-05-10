@@ -15,6 +15,14 @@ import EditWorkout from "./pages/Admin/EditWorkout";
 import Exercises from "./pages/User/Exercises";
 import Recipes from "./pages/User/Recipes";
 import Tools from "./pages/User/Tools";
+import BMICalculator from "./pages/User/Tools/BMICalculator";
+import CalorieCalculator from "./pages/User/Tools/CalorieCalculator";
+import MuscleMass from "./pages/User/Tools/MuscleMass";
+import BodyFat from "./pages/User/Tools/BodyFat";
+import SleepQuality from "./pages/User/Tools/SleepQuality";
+import ProteinIntake from "./pages/User/Tools/ProteinIntake";
+import WaterIntake from "./pages/User/Tools/WaterIntake";
+import RepMax from "./pages/User/Tools/RepMax";
 
 export default function AppRoutes() {
     return (
@@ -42,6 +50,16 @@ export default function AppRoutes() {
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/tools" element={<Tools />} />
+
+          {/* Tools */}
+          <Route path="/tools/bmi" element={<BMICalculator />} />
+          <Route path="/tools/calorie" element={<CalorieCalculator/>} />
+          <Route path="/tools/muscle-mass" element={<MuscleMass/>} />
+          <Route path="/tools/body-fat" element={<BodyFat/>} />
+          <Route path="/tools/sleep-quality" element={<SleepQuality/>} />
+          <Route path="/tools/protein-intake" element={<ProteinIntake/>} />
+          <Route path="/tools/water-intake" element={<WaterIntake/>} />
+          <Route path="/tools/rep-max" element={<RepMax/>} />
         </Routes>
       </BrowserRouter>
     );

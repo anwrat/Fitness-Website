@@ -21,6 +21,7 @@ function Home(){
                   Start Your Journey
             </button>
             <button className="bg-black text-[#CD4E17] px-6 py-2 rounded-4xl hover:bg-[#CD4E17] hover:text-white transition border border-[#CD4E17] cursor-pointer font-semibold"
+            onClick={()=>navigate('/register')}
             >
                Explore Programs
             </button>

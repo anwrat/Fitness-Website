@@ -1,4 +1,4 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Coaching = () => {
   const coachingData = [
@@ -20,8 +20,10 @@ const Coaching = () => {
     }
   ];
 
+  const navigate = useNavigate();
+
   return (
-    <div className="mt-20 px-6 text-white" id="coaching">
+    <div className="mt-20 px-6 text-white cursor-pointer" id="coaching" onClick={()=>navigate('/register')}>
       <h2 className="text-4xl font-bold text-center mb-2">Coaching</h2>
       <p className="text-center text-sm text-gray-400 uppercase mb-10">Achieve more with expert guidance</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
