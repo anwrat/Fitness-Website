@@ -39,7 +39,7 @@ function BMICalculator() {
       <UserNav />
       <div className="mt-20 pt-30 px-10 text-white" id="coaching">
         <h2 className="text-4xl font-bold text-center mb-2">BMI Calculator</h2>
-        <p className="text-center text-sm text-gray-400 uppercase mb-6">Calculate BMR, daily calorie needs, and macros.</p>
+        <p className="text-center text-sm text-gray-400 uppercase mb-6">Calculate Your Body Mass Index</p>
 
         <div className="bg-[#1a1a1a] p-6 rounded-xl shadow-md transition-transform duration-300 flex flex-col lg:flex-row justify-between items-center gap-10 w-1/2 mx-auto">
           {/* Input Form */}
