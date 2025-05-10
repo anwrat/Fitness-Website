@@ -1,8 +1,8 @@
-#Creating urls for frontend to communicate with backend 
+from users.views import register, login, user_details_view
 from django.urls import path
-from users.views import register, login
 
 urlpatterns = [
-    path('register/', register, name='register'),  # Register endpoint
-    path('login/', login, name='login'),  # Login endpoint
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
+    path('details/', user_details_view, name='user_details'),  # GET/PUT user details
 ]
