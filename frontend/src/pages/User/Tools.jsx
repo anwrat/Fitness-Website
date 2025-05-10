@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import UserNav from "../../components/UserNav";
 import NormalButton from "../../components/NormalButton";
+import Footer from "../../components/Footer";
 
 const Tools = () => {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ const Tools = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
