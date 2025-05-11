@@ -29,7 +29,7 @@ function Recipes() {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col bg-[#0F0505]">
+    <div className="w-screen min-h-screen flex flex-col bg-gradient-to-br from-black via-gray-900 to-black">
       <UserNav />
       <div className="flex-grow mt-20 pt-30 px-10">
         <h2 className="text-3xl font-bold text-center mb-8 text-white">Explore Recipes</h2>
@@ -38,7 +38,7 @@ function Recipes() {
             recipes.map((recipe) => (
               <div
                 key={recipe.id}
-                className="rounded-xl overflow-hidden shadow-lg bg-[#1a1a1a] cursor-pointer transform transition duration-300 hover:scale-105"
+                className="rounded-xl overflow-hidden shadow-lg bg-[#1a1a1a] cursor-pointer hover:shadow-red-500/50 transform transition hover:-translate-y-1 hover:scale-105"
                 onClick={() => handleCardClick(recipe)}
               >
                 <div className="relative">
