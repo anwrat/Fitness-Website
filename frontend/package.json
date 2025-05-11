@@ -13,8 +13,10 @@
     "@fontsource/luckiest-guy": "^5.2.5",
     "@tailwindcss/vite": "^4.0.17",
     "axios": "^1.8.4",
+    "framer-motion": "^12.10.5",
     "lucide-react": "^0.485.0",
     "react": "^19.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.0",
     "tailwindcss": "^4.0.17"
