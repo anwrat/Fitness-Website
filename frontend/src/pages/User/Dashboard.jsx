@@ -55,7 +55,7 @@ function Dashboard() {
   return (
     <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
       <UserNav />
-      <div className="p-6 max-w-7xl mx-auto">
+      <div className="p-6 max-w-7xl mx-auto mt-20 pt-30 px-10">
         <motion.h1
           className="text-5xl font-extrabold mb-6 text-center bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent"
           initial={{ opacity: 0, y: -30 }}

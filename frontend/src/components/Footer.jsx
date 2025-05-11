@@ -3,7 +3,7 @@ import logo from "../assets/mainlogo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0f0f0f] text-white py-12 px-6 mt-20">
+    <footer className="bg-[#0F0505] text-white py-12 px-6 mt-20">
       <div className="max-w-7xl mx-auto md:grid-cols-2 gap-8 justify-items-center">
         {/* Logo and Contact (Center) */}
         <img src={logo} alt="FitForge Logo" className="h-12 mb-4" />

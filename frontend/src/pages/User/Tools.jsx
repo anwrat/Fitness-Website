@@ -50,7 +50,7 @@ const Tools = () => {
   ];
 
   return (
-    <div className="w-screen min-h-screen bg-[#0F0505]">
+    <div className="w-screen min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <UserNav />
       <div className="mt-20 pt-30 px-10 text-white">
         <h2 className="text-4xl font-bold text-center mb-10">Tools</h2>
