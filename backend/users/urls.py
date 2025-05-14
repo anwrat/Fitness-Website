@@ -1,8 +1,9 @@
-from users.views import register, login, user_details_view
+from users.views import register, login, admin_user_management_view
 from django.urls import path
 
 urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login, name='login'),
-    path('details/', user_details_view, name='user_details'),  # GET/PUT user details
+    path('details/admin/', admin_user_management_view, name='admin_user_list'),
+    path('details/admin/<int:user_id>/', admin_user_management_view, name='admin_user_detail'),
 ]

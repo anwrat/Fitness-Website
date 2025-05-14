@@ -1,31 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny  # Allow anyone to access the endpoints
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import UserDetails
-from .serializers import UserDetailsSerializer
-
+from .serializers import UserDetailsSerializer, UserSerializer
 
 def home(request):
     return render(request, 'users/home.html')  # Ensure 'home.html' exists in templates
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny])  # Allow anyone to register
 def register(request):
-    """
-    Register a new user along with their details.
-    """
     try:
         data = request.data
         username = data.get("username")
         password = data.get("password")
-        email = data.get("email")  # Get the email field from the request data
+        email = data.get("email")
         first_name = data.get("first_name")
         last_name = data.get("last_name")
         height = data.get("height")
@@ -34,25 +29,20 @@ def register(request):
         gender = data.get("gender")
         avatar = data.get("avatar")
 
-        # Validate if username, password, and email are provided
         if not username or not password or not email:
             return Response({"error": "Username, password, and email are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Check if the username already exists
         if User.objects.filter(username=username).exists():
             return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Check if the email already exists
         if User.objects.filter(email=email).exists():
             return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not isinstance(date_of_birth, str):
             return Response({"error": "Date of birth should be in YYYY-MM-DD format."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create user with email and password
         user = User.objects.create_user(username=username, password=password, email=email)
 
-        # Create user details
         UserDetails.objects.create(
             user=user,
             first_name=first_name,
@@ -71,39 +61,30 @@ def register(request):
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny])  # Allow anyone to log in
 def login(request):
-    """
-    Log in a user using either their username or email and return a JWT token.
-    Also returns the user's role (admin or regular user).
-    """
     try:
         data = request.data
-        username_or_email = data.get("username")  # This can be either username or email
+        username_or_email = data.get("username")
         password = data.get("password")
 
         if not username_or_email or not password:
             return Response({"error": "Username/email and password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Try to find user by username or email
         user = None
-
-        # Check if the provided username_or_email is an email
         if '@' in username_or_email:
             user = User.objects.filter(email=username_or_email).first()
         else:
             user = User.objects.filter(username=username_or_email).first()
 
-        if user and user.check_password(password):  # Check if the password matches
+        if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
-            
-            # Check if the user is an admin (using is_staff or is_superuser)
-            role = "admin" if user.is_staff else "user"
-            
+            role = "admin" if user.username == "admin" else "user"
+
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'role': role,  # Return the role of the user
+                'role': role,
                 'message': 'Login successful'
             })
         else:
@@ -113,31 +94,41 @@ def login(request):
         return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET', 'PUT'])
-@permission_classes([IsAuthenticated])
-def user_details_view(request):
-    """
-    View or update the authenticated user's profile details.
-    """
-    try:
-        user = request.user
-        details = user.details
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])  # Allow anyone to view, update, or delete users
+def admin_user_management_view(request, user_id=None):
+    if request.method == 'GET':
+        if user_id:
+            user = get_object_or_404(User, id=user_id)
+            details = get_object_or_404(UserDetails, user=user)
+            return Response({
+                'user': UserSerializer(user).data,
+                'details': UserDetailsSerializer(details).data
+            }, status=status.HTTP_200_OK)
+        else:
+            all_users = []
+            for user in User.objects.all():
+                try:
+                    details = user.details
+                    all_users.append({
+                        'user': UserSerializer(user).data,
+                        'details': UserDetailsSerializer(details).data
+                    })
+                except UserDetails.DoesNotExist:
+                    continue
+            return Response(all_users, status=status.HTTP_200_OK)
 
-        if request.method == 'GET':
-            serializer = UserDetailsSerializer(details)
+    elif request.method == 'PUT':
+        user = get_object_or_404(User, id=user_id)
+        details = get_object_or_404(UserDetails, user=user)
+
+        serializer = UserDetailsSerializer(details, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        elif request.method == 'PUT':
-            if user != details.user:
-                return Response({"error": "You cannot edit another user's details."}, status=status.HTTP_403_FORBIDDEN)
-
-            serializer = UserDetailsSerializer(details, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    except UserDetails.DoesNotExist:
-        return Response({"error": "User details not found."}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'DELETE':
+        user = get_object_or_404(User, id=user_id)
+        user.delete()
+        return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
