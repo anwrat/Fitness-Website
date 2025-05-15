@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny  # Allow anyone to access the endpoints
+from rest_framework.permissions import AllowAny, IsAuthenticated # Allow anyone to access the endpoints
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -131,3 +131,37 @@ def admin_user_management_view(request, user_id=None):
         user = get_object_or_404(User, id=user_id)
         user.delete()
         return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+    from rest_framework.permissions import IsAuthenticated
+
+@api_view(['GET', 'PUT'])
+@permission_classes([AllowAny])
+def user_profile_view(request):
+    # Get user identifier from query params or request data
+    username = request.query_params.get('username') or request.data.get('username')
+    if not username:
+        return Response({"error": "Username parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = get_object_or_404(User, username=username)
+    try:
+        details = get_object_or_404(UserDetails, user=user)
+
+        if request.method == 'GET':
+            return Response({
+                'user': UserSerializer(user).data,
+                'details': UserDetailsSerializer(details).data
+            })
+
+        elif request.method == 'PUT':
+            # WARNING: This allows anyone to update any user by username — NOT secure!
+            serializer = UserDetailsSerializer(details, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'user': UserSerializer(user).data,
+                    'details': serializer.data
+                }, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
