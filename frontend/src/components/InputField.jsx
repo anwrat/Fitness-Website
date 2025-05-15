@@ -24,7 +24,7 @@ function InputField({
         type={inputType}
         placeholder={placeholder}
         required
-        className={`w-full px-3 py-2 mt-1 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14] pr-10 ${className}`}
+        className={`w-full px-3 py-2 mt-1 text-gray-400 bg-[#0F0505] border-2 border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-[#D90A14] pr-10 ${className}`}
         {...props}
       />
 

@@ -196,17 +196,16 @@ function Register() {
           />
 
           <div>
-            <label className="block text-sm font-medium mb-1">Gender</label>
             <select
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full p-2 text-black rounded-md"
+              className="w-full p-2 text-gray-400 rounded-md border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#D90A14] pr-10"
             >
-              <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="" className="text-black">Select gender</option>
+              <option value="male" className="text-black">Male</option>
+              <option value="female" className="text-black">Female</option>
+              <option value="other" className="text-black">Other</option>
             </select>
           </div>
 
