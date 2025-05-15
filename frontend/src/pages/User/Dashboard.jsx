@@ -1,42 +1,43 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import UserNav from '../../components/UserNav';
-import CountUp from 'react-countup';
-import { motion, AnimatePresence } from 'framer-motion';
-import Footer from "../../components/Footer";
+import Footer from '../../components/Footer';
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [timeOfDay, setTimeOfDay] = useState('Hello');
+  const [quoteIndex, setQuoteIndex] = useState(0);
 
-  const user = { name: 'Athlete' };
-  const workoutStats = {
-    weekly_count: 3,
-    recipes_tried: 2,
-    calories_burned: 1200,
-    workout_goal: 5,
-    calorie_goal: 2000,
+  const quotes = [
+    "The only bad workout is the one that didn’t happen.",
+    "Push yourself, because no one else is going to do it for you.",
+    "Fitness is not about being better than someone else. It’s about being better than you used to be.",
+    "Take care of your body. It’s the only place you have to live.",
+    "Don’t limit your challenges. Challenge your limits.",
+    "It never gets easier. You just get stronger.",
+    "Exercise not only changes your body, it changes your mind, your attitude and your mood.",
+  ];
+
+  const getUserIdFromToken = (token) => {
+    try {
+      const payload = token.split(".")[1];
+      const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+      const data = JSON.parse(jsonPayload);
+      return data.user_id || data.id;
+    } catch {
+      return null;
+    }
   };
-  const recommendations = { workout: 'HIIT Express', recipe: 'Chicken Salad' };
-  const localQuotes = [
-    'Discipline is the bridge between goals and accomplishment.',
-    'Push yourself, because no one else is going to do it for you.',
-    'The body achieves what the mind believes.',
-    'Wake up. Work out. Crush it.',
-    'Success starts with self-discipline.',
-  ];
-  const upcomingWorkouts = ['Leg Day • Tomorrow', 'Yoga Recovery • Thursday'];
-  const badges = [
-    { name: '7-Day Streak', emoji: '🥇', progress: 100 },
-    { name: '5000 Calories Burned', emoji: '🥈', progress: 80 },
-    { name: '10 Workouts Completed', emoji: '🥉', progress: 60 },
-  ];
-  const leaderboard = [
-    { name: 'Alex', score: 12 },
-    { name: 'You', score: 10 },
-    { name: 'Sam', score: 9 },
-  ];
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -44,129 +45,127 @@ function Dashboard() {
     else if (hour < 18) setTimeOfDay('Good afternoon');
     else setTimeOfDay('Good evening');
 
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      const userId = getUserIdFromToken(token);
+      if (!token || !userId) {
+        setError("Please login first.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(`http://localhost:8000/details/admin/${userId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserData(response.data);
+      } catch (err) {
+        setError("Failed to load user data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+
+    // Quote changer every 15 seconds
     const interval = setInterval(() => {
-      setQuoteIndex((prev) => (prev + 1) % localQuotes.length);
-    }, 5000);
+      setQuoteIndex(prev => (prev + 1) % quotes.length);
+    }, 15000);
+
     return () => clearInterval(interval);
   }, []);
 
-  const getPercentage = (current, goal) => Math.min((current / goal) * 100, 100);
+  if (loading) return <div className="text-white text-center mt-10">Loading...</div>;
+  if (error) return <div className="text-red-600 text-center mt-10">{error}</div>;
+  if (!userData) return null;
+
+  const { user, details } = userData;
+
+  const getAge = (dob) => {
+    const birthDate = new Date(dob);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+    return age;
+  };
+
+  const calculateBMI = (weight, height) => {
+    const hInMeters = height / 100;
+    return weight && height ? (weight / (hInMeters * hInMeters)).toFixed(1) : null;
+  };
+
+  const getBMICategory = (bmi) => {
+    if (bmi < 18.5) return 'Underweight';
+    if (bmi < 24.9) return 'Normal';
+    if (bmi < 29.9) return 'Overweight';
+    return 'Obese';
+  };
+
+  const calculateBMR = () => {
+    if (!details.gender || !details.height || !details.weight || !details.date_of_birth) return null;
+    const age = getAge(details.date_of_birth);
+    const { gender, weight, height } = details;
+    return gender.toLowerCase() === 'male'
+      ? Math.round(10 * weight + 6.25 * height - 5 * age + 5)
+      : Math.round(10 * weight + 6.25 * height - 5 * age - 161);
+  };
+
+  const bmi = calculateBMI(details.weight, details.height);
+  const bmiCategory = getBMICategory(bmi);
+  const bmr = calculateBMR();
+  const age = getAge(details.date_of_birth);
 
   return (
     <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen text-white">
       <UserNav />
-      <div className="p-6 max-w-7xl mx-auto mt-20 pt-30 px-10">
-        <motion.h1
-          className="text-5xl font-extrabold mb-6 text-center bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent"
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          {timeOfDay}, {user.name}! 🌟
-        </motion.h1>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          {[
-            { icon: '🔥', value: workoutStats.weekly_count, label: 'Workouts', goal: workoutStats.workout_goal },
-            { icon: '🍽', value: workoutStats.recipes_tried, label: 'Recipes', goal: 5 },
-            { icon: '⚡', value: workoutStats.calories_burned, label: 'Calories', goal: workoutStats.calorie_goal },
-            { icon: '⏰', value: 2, label: 'Upcoming', goal: 3 },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 text-center shadow-xl hover:shadow-red-500/50 transform transition hover:-translate-y-1"
-              whileHover={{ scale: 1.08 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-            >
-              <motion.div animate={{ rotate: [0, 20, -20, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
-                <span className="text-4xl">{stat.icon}</span>
-              </motion.div>
-              <h2 className="text-3xl my-2">
-                <CountUp end={stat.value} duration={2} />
-              </h2>
-              <p className="text-md mb-2">{stat.label}</p>
-              <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-                <div
-                  className="bg-gradient-to-r from-red-500 to-yellow-400 h-2 rounded-full"
-                  style={{ width: `${getPercentage(stat.value, stat.goal)}%` }}
-                />
-              </div>
-              <p className="text-xs text-gray-300">{getPercentage(stat.value, stat.goal).toFixed(0)}% goal</p>
-            </motion.div>
-          ))}
+      <div className="max-w-5xl mx-auto mt-20 pt-30 px-10 mb-10">
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400">
+            {timeOfDay}, {user.username}!
+          </h1>
+          <p className="text-lg italic text-gray-300 max-w-2xl mx-auto">
+            "{quotes[quoteIndex]}"
+          </p>
         </div>
 
-        {/* Quote carousel */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={quoteIndex}
-            className="text-center mb-12 text-lg italic text-pink-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            “{localQuotes[quoteIndex]}”
-          </motion.div>
-        </AnimatePresence>
+        <div className="grid md:grid-cols-2 gap-8 mt-4">
+          <div className="bg-white/10 p-6 rounded-xl shadow-md">
+            <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400">Your Stats</h2>
+            <p><strong>Full Name:</strong> {details.first_name} {details.last_name}</p>
+            <p><strong>Gender:</strong> {details.gender}</p>
+            <p><strong>Age:</strong> {age} years</p>
+            <p><strong>Height:</strong> {details.height} cm</p>
+            <p><strong>Weight:</strong> {details.weight} kg</p>
+            <p><strong>BMI:</strong> {bmi} ({bmiCategory})</p>
+            <p><strong>BMR:</strong> {bmr} kcal/day</p>
+          </div>
 
-        {/* Achievements */}
-        <div className="mb-12">
-          <h2 className="text-2xl mb-4 text-center text-green-400 font-bold">🏅 Achievements</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {badges.map((badge, idx) => (
-              <div key={idx} className="bg-white/10 p-4 rounded-xl text-center backdrop-blur-lg shadow hover:scale-105 transition">
-                <span className="text-3xl">{badge.emoji}</span>
-                <h3 className="font-semibold mt-2">{badge.name}</h3>
-                <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                  <div
-                    className="bg-gradient-to-r from-green-400 to-yellow-300 h-2 rounded-full"
-                    style={{ width: `${badge.progress}%` }}
-                  />
-                </div>
-                <p className="text-xs mt-1 text-gray-300">{badge.progress}% completed</p>
-              </div>
-            ))}
+          <div className="bg-white/10 p-6 rounded-xl shadow-md">
+            <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400">Health Insights</h2>
+            {bmi && (
+              <>
+                <p className="mb-2">
+                  Based on your BMI, you are categorized as <strong className='text-[#D90A14]'>{bmiCategory}</strong>.
+                </p>
+                {bmiCategory === 'Underweight' && <p>You may need to consume more calories and focus on strength training.</p>}
+                {bmiCategory === 'Normal' && <p>You're doing well! Maintain your current fitness routine.</p>}
+                {bmiCategory === 'Overweight' && <p>Consider cardio and calorie control to manage your weight.</p>}
+                {bmiCategory === 'Obese' && <p>A structured diet and workout plan is advised. Consult a nutritionist.</p>}
+              </>
+            )}
+            {bmr && (
+              <p className="mt-4">
+                Your estimated maintenance calories are <strong className='text-[#D90A14]'>{bmr} kcal/day</strong>. Adjust intake based on fitness goals.
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Leaderboard */}
-        <div className="mb-12">
-          <h2 className="text-2xl mb-4 text-center text-purple-400 font-bold">🏆 Leaderboard</h2>
-          <ul className="flex flex-col items-center space-y-2">
-            {leaderboard.map((player, idx) => (
-              <li key={idx} className="bg-white/10 p-2 rounded-full w-2/3 md:w-1/3 text-center shadow hover:bg-purple-500/20 transition">
-                <span className="mr-2 bg-purple-500 text-white rounded-full px-3 py-1 text-sm">{player.name[0]}</span>
-                {player.name} — {player.score} workouts
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Upcoming Workouts */}
-        <div className="mb-12">
-          <h2 className="text-2xl mb-4 text-center text-yellow-300 font-bold">📅 Upcoming Workouts</h2>
-          <ul className="flex flex-col items-center space-y-1">
-            {upcomingWorkouts.map((item, idx) => (
-              <li key={idx} className="text-gray-300">⏳ {item}</li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row justify-center gap-6">
+        <div className="mt-10 text-center">
           <button
-            onClick={() => navigate('/exercises')}
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full text-white text-lg font-semibold shadow-lg hover:shadow-red-500/70 transition transform hover:scale-105"
+            onClick={() => navigate('/editProfile/' + user.id)}
+            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full text-white font-semibold shadow-lg hover:shadow-red-500/70 transition hover:scale-105"
           >
-            💥 Start Workout
-          </button>
-          <button
-            onClick={() => navigate('/recipes')}
-            className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full text-white text-lg font-semibold shadow-lg hover:shadow-yellow-400/70 transition transform hover:scale-105"
-          >
-            🍴 Explore Recipes
+            Update Profile Info
           </button>
         </div>
       </div>
