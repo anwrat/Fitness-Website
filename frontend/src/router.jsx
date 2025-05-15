@@ -13,6 +13,7 @@ import ExerciseManagement from "./pages/Admin/ExerciseManagement";
 import CreateWorkout from "./pages/Admin/CreateWorkout";
 import EditWorkout from "./pages/Admin/EditWorkout";
 import Exercises from "./pages/User/Exercises";
+import EditProfile from "./pages/User/EditProfile";
 import Recipes from "./pages/User/Recipes";
 import Tools from "./pages/User/Tools";
 import BMICalculator from "./pages/User/Tools/BMICalculator";
@@ -48,6 +49,7 @@ export default function AppRoutes() {
           <Route path="/createWorkout" element={<CreateWorkout />} />
           <Route path="/editWorkout/:id" element={<EditWorkout />} />
           <Route path="/editProfile/:id" element={<EditProfile />} />
+         
 
 
           

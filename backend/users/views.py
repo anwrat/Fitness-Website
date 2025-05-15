@@ -132,18 +132,17 @@ def admin_user_management_view(request, user_id=None):
         user.delete()
         return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
     
-    from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 @api_view(['GET', 'PUT'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny])  # For testing only, no auth yet
 def user_profile_view(request):
-    # Get user identifier from query params or request data
-    username = request.query_params.get('username') or request.data.get('username')
-    if not username:
-        return Response({"error": "Username parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+    user_id = request.query_params.get('user_id') or request.data.get('user_id')
+    if not user_id:
+        return Response({"error": "User ID is required to fetch profile."}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = get_object_or_404(User, username=username)
     try:
+        user = get_object_or_404(User, id=user_id)
         details = get_object_or_404(UserDetails, user=user)
 
         if request.method == 'GET':
@@ -153,7 +152,6 @@ def user_profile_view(request):
             })
 
         elif request.method == 'PUT':
-            # WARNING: This allows anyone to update any user by username — NOT secure!
             serializer = UserDetailsSerializer(details, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

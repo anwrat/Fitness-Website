@@ -6,5 +6,5 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('details/admin/', admin_user_management_view, name='admin_user_list'),
     path('details/admin/<int:user_id>/', admin_user_management_view, name='admin_user_detail'),
-    path('details/', user_profile_view),
+    path('api/user-profile/', user_profile_view, name='user_profile_view'),
 ]
