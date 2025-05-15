@@ -95,10 +95,11 @@ def login(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([AllowAny])  # Allow anyone to view, update, or delete users
+@permission_classes([AllowAny])
 def admin_user_management_view(request, user_id=None):
     if request.method == 'GET':
         if user_id:
+            # Get single user and details
             user = get_object_or_404(User, id=user_id)
             details = get_object_or_404(UserDetails, user=user)
             return Response({
@@ -106,22 +107,20 @@ def admin_user_management_view(request, user_id=None):
                 'details': UserDetailsSerializer(details).data
             }, status=status.HTTP_200_OK)
         else:
-            all_users = []
-            for user in User.objects.all():
-                try:
-                    details = user.details
-                    all_users.append({
-                        'user': UserSerializer(user).data,
-                        'details': UserDetailsSerializer(details).data
-                    })
-                except UserDetails.DoesNotExist:
-                    continue
+            # Get all users with details efficiently
+            users_with_details = UserDetails.objects.select_related('user').all()
+            all_users = [
+                {
+                    'user': UserSerializer(ud.user).data,
+                    'details': UserDetailsSerializer(ud).data
+                }
+                for ud in users_with_details
+            ]
             return Response(all_users, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
         user = get_object_or_404(User, id=user_id)
         details = get_object_or_404(UserDetails, user=user)
-
         serializer = UserDetailsSerializer(details, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
