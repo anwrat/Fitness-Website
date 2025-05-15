@@ -4,17 +4,54 @@ import axios from "axios";
 
 function Profile() {
   const navigate = useNavigate();
-  // Replace this with actual user ID from auth or context
-  const userId = 26;
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Helper function to decode JWT payload and get user ID
+  const getUserIdFromToken = (token) => {
+    try {
+      // JWT format: header.payload.signature
+      const payload = token.split(".")[1];
+      // Decode base64 payload (replace '-' and '_' for standard base64)
+      const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+      const data = JSON.parse(jsonPayload);
+      return data.user_id || data.id; // adjust key depending on your backend JWT
+    } catch (e) {
+      return null;
+    }
+  };
+
   useEffect(() => {
     const fetchUserProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("No token found, please login");
+        setLoading(false);
+        return;
+      }
+
+      const userId = getUserIdFromToken(token);
+      if (!userId) {
+        setError("Invalid token or user ID not found");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await axios.get(`http://localhost:8000/details/admin/${userId}/`);
+        // Assuming your API requires token for auth, add it to headers
+        const response = await axios.get(`http://localhost:8000/details/admin/${userId}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setUserData(response.data);
       } catch (err) {
         setError("Failed to fetch profile data.");
@@ -24,10 +61,11 @@ function Profile() {
     };
 
     fetchUserProfile();
-  }, [userId]);
+  }, []);
 
   if (loading) return <div>Loading profile...</div>;
-  if (error) return <div>{error}</div>;
+  if (error) return <div className="text-red-600">{error}</div>;
+  if (!userData) return null;
 
   return (
     <div className="w-1/2 min-h-screen p-4 ml-48 relative">
@@ -67,11 +105,10 @@ function Profile() {
             <th className="border px-2 py-1">Gender</th>
             <td className="border px-2 py-1">{userData.details.gender}</td>
           </tr>
-          {/* Add more fields if you want */}
           <tr>
             <td colSpan={2} className="text-center py-4">
               <button
-                onClick={() => navigate(`/profile/edit/${userId}`)}
+                onClick={() => navigate(`/editProfile/${userData.user.id}`)}
                 className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
               >
                 Edit Profile
