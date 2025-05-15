@@ -75,8 +75,8 @@ function UserManagement() {
                             <tr key={userData.user.id} className="border">
                                 <td className="border px-2 py-1">{userData.user.username}</td>
                                 <td className="border px-2 py-1">{userData.user.email}</td>
-                                <td className="border px-2 py-1">{userData.user.first_name}</td> {/* Changed here */}
-                                <td className="border px-2 py-1">{userData.user.last_name}</td> {/* Changed here */}
+                                <td className="border px-2 py-1">{userData.user.first_name}</td> 
+                                <td className="border px-2 py-1">{userData.user.last_name}</td>
                                 <td className="border px-2 py-1">{userData.details.height}</td>
                                 <td className="border px-2 py-1">{userData.details.weight}</td>
                                 <td className="border px-2 py-1">{userData.details.gender}</td>
