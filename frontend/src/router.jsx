@@ -23,6 +23,8 @@ import SleepQuality from "./pages/User/Tools/SleepQuality";
 import ProteinIntake from "./pages/User/Tools/ProteinIntake";
 import WaterIntake from "./pages/User/Tools/WaterIntake";
 import RepMax from "./pages/User/Tools/RepMax";
+import { Profiler } from "react";
+import Profile from "./pages/User/Profile";
 
 export default function AppRoutes() {
     return (
@@ -45,11 +47,15 @@ export default function AppRoutes() {
           <Route path="/exercisemanagement" element={<ExerciseManagement />} />
           <Route path="/createWorkout" element={<CreateWorkout />} />
           <Route path="/editWorkout/:id" element={<EditWorkout />} />
+          <Route path="/editProfile/:id" element={<EditProfile />} />
+
+
           
           {/* User Routes */}
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/tools" element={<Tools />} />
+          <Route path="/profile" element={<Profile/>} />
 
           {/* Tools */}
           <Route path="/tools/bmi" element={<BMICalculator />} />
