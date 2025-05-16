@@ -75,11 +75,11 @@ function UserNav() {
           </div>
 
           {/* Center: Search bar */}
-          <input
+          {/* <input
             type="text"
             placeholder="Search..."
             className="px-3 py-2 mb-2 rounded-md bg-white/10 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-[#D90A14]"
-          />
+          /> */}
 
           {/* Desktop Links */}
           <div className="hidden md:flex flex-col items-center">
