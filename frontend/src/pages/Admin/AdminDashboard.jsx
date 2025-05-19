@@ -37,10 +37,10 @@ function AdminDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white ml-48">
+    <div className="min-h-screen text-white ml-48">
       <AdminNav />
       <div className="flex flex-col items-center justify-center py-20 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
+        <h1 className="text-3xl font-bold mb-8 text-center text-black bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
           {timeOfDay}, Admin!
         </h1>
 
@@ -49,15 +49,15 @@ function AdminDashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl text-center">
             <div className="bg-white/10 p-6 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-2">Total Users</h2>
+              <h2 className="text-lg font-semibold mb-2 text-black">Total Users</h2>
               <p className="text-4xl font-bold text-yellow-400">{userCount ?? "..."}</p>
             </div>
             <div className="bg-white/10 p-6 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-2">Total Workouts</h2>
+              <h2 className="text-lg font-semibold mb-2 text-black">Total Workouts</h2>
               <p className="text-4xl font-bold text-pink-400">{workoutCount ?? "..."}</p>
             </div>
             <div className="bg-white/10 p-6 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-2">Total Recipes</h2>
+              <h2 className="text-lg font-semibold mb-2 text-black">Total Recipes</h2>
               <p className="text-4xl font-bold text-green-400">{recipeCount ?? "..."}</p>
             </div>
           </div>

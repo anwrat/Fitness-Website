@@ -131,14 +131,14 @@ function UserManagement() {
       </table>
 
       <div className="w-1/2 mt-6 mx-auto">
-        <NormalButton
+        {/* <NormalButton
           text="Create a User"
           bgColor="green"
           onClick={() => navigate("/createUser")}
           textColor="white"
           hoverBg="white"
           hoverText="green"
-        />
+        /> */}
       </div>
 
       {showDeletePopup && selectedUser && (
