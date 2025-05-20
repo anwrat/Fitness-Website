@@ -1,3 +1,4 @@
+#urls.py
 from users.views import register, login, admin_user_management_view, user_profile_view
 from django.urls import path
 
