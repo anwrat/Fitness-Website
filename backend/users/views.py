@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny  # Allow anyone to access the endpoints
+from rest_framework.permissions import AllowAny, IsAuthenticated # Allow anyone to access the endpoints
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -95,10 +95,11 @@ def login(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([AllowAny])  # Allow anyone to view, update, or delete users
+@permission_classes([AllowAny])
 def admin_user_management_view(request, user_id=None):
     if request.method == 'GET':
         if user_id:
+            # Get single user and details
             user = get_object_or_404(User, id=user_id)
             details = get_object_or_404(UserDetails, user=user)
             return Response({
@@ -106,22 +107,20 @@ def admin_user_management_view(request, user_id=None):
                 'details': UserDetailsSerializer(details).data
             }, status=status.HTTP_200_OK)
         else:
-            all_users = []
-            for user in User.objects.all():
-                try:
-                    details = user.details
-                    all_users.append({
-                        'user': UserSerializer(user).data,
-                        'details': UserDetailsSerializer(details).data
-                    })
-                except UserDetails.DoesNotExist:
-                    continue
+            # Get all users with details efficiently
+            users_with_details = UserDetails.objects.select_related('user').all()
+            all_users = [
+                {
+                    'user': UserSerializer(ud.user).data,
+                    'details': UserDetailsSerializer(ud).data
+                }
+                for ud in users_with_details
+            ]
             return Response(all_users, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
         user = get_object_or_404(User, id=user_id)
         details = get_object_or_404(UserDetails, user=user)
-
         serializer = UserDetailsSerializer(details, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -132,3 +131,35 @@ def admin_user_management_view(request, user_id=None):
         user = get_object_or_404(User, id=user_id)
         user.delete()
         return Response({"message": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+from rest_framework.decorators import api_view, permission_classes
+
+@api_view(['GET', 'PUT'])
+@permission_classes([AllowAny])  # For testing only, no auth yet
+def user_profile_view(request):
+    user_id = request.query_params.get('user_id') or request.data.get('user_id')
+    if not user_id:
+        return Response({"error": "User ID is required to fetch profile."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = get_object_or_404(User, id=user_id)
+        details = get_object_or_404(UserDetails, user=user)
+
+        if request.method == 'GET':
+            return Response({
+                'user': UserSerializer(user).data,
+                'details': UserDetailsSerializer(details).data
+            })
+
+        elif request.method == 'PUT':
+            serializer = UserDetailsSerializer(details, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'user': UserSerializer(user).data,
+                    'details': serializer.data
+                }, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
