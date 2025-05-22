@@ -96,10 +96,10 @@ function Login() {
             />
           </div>
 
-          <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]"
+          {/* <p className="w-full flex py-3 cursor-pointer justify-end text-[#D90A14] hover:text-[#78050a]"
             onClick={() => navigate('/pass')}>
             Forgot your password?
-          </p>
+          </p> */}
 
           <NormalButton btype="submit" text="Login" bgColor="#D90A14" textColor="white" hoverBorder="#D90A14" hoverBg="#0F0505" hoverText="#D90A14" bColor="#D90A14" />
         </form>
